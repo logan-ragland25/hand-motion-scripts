@@ -29,7 +29,7 @@ def control_window(action):
     if len(cmd) > 0:
         subprocess.run(cmd, text=True)
 
-base_options = python.BaseOptions(model_asset_path='gesture_recognizer.task')
+base_options = python.BaseOptions(model_asset_path='/home/logan/Documents/Projects/handMotionScripts/hand_gesture_final/gesture_recognizer.task')
 options = vision.GestureRecognizerOptions(base_options=base_options)
 detector = vision.GestureRecognizer.create_from_options(options)
 
@@ -58,38 +58,42 @@ while True:
         top_gesture = result.gestures[0][0]
         hand_landmarks = result.hand_landmarks
 
-        if top_gesture.category_name == "Victory":
+        if top_gesture.category_name == "peace":
             filename = f"{save_path}selfie_{int(time.time())}.png"
             cv2.imwrite(filename, frame)
             command_timeout = time.time()
 
-        elif top_gesture.category_name == "Closed_Fist":
+        elif top_gesture.category_name == "closed_fist":
             control_window("minimize")
             command_timeout = time.time()
 
-        elif top_gesture.category_name == "Open_Palm":
+        elif top_gesture.category_name == "open_fist":
             control_window("maximize")
             command_timeout = time.time()
 
-        elif top_gesture.category_name == "Pointing_Up":
-            print("Pointing Up️")
+        # elif top_gesture.category_name == "Pointing_Up":
+        #     print("Pointing Up️")
+        #     command_timeout = time.time()
+
+        if top_gesture.category_name == "two_fingers_up":
+            print("Two fingers up")
             command_timeout = time.time()
 
-        elif top_gesture.category_name == "Thumb_Up":
-            print("Thumbs Up")
-            command_timeout = time.time()
+        # elif top_gesture.category_name == "Thumb_Up":
+        #     print("Thumbs Up")
+        #     command_timeout = time.time()
+        #
+        # elif top_gesture.category_name == "Thumb_Down":
+        #     print("Thumbs Down")
+        #     command_timeout = time.time()
 
-        elif top_gesture.category_name == "Thumb_Down":
-            print("Thumbs Down")
-            command_timeout = time.time()
-
-        elif top_gesture.category_name == "ILoveYou":
-            # volume up all the way
-            # use spea
-            command_timeout = time.time()
-
-        elif top_gesture.category_name == "None":
-            # This occurs when a hand is visible but the shape isn't recognized
-            pass
+        # elif top_gesture.category_name == "ILoveYou":
+        #     # volume up all the way
+        #     # use spea
+        #     command_timeout = time.time()
+        #
+        # elif top_gesture.category_name == "None":
+        #     # This occurs when a hand is visible but the shape isn't recognized
+        #     pass
 
         analyze_timeout = time.time()
