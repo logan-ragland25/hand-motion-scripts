@@ -4,6 +4,7 @@ import time
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import subprocess
+import pynput
 
 minimizedIds = []
 
@@ -37,13 +38,12 @@ cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 600)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 500)
 
+mouse = pynput.mouse.Controller()
+cam = cv2.VideoCapture(0)
+
 analyze_timeout = 0
 command_timeout = 0
-
 save_path = "/home/logan/Pictures/Selfies/"
-
-# Initialize webcam (0 = default camera)
-cam = cv2.VideoCapture(0)
 
 while True:
     success, frame = cap.read()
@@ -71,29 +71,20 @@ while True:
             control_window("maximize")
             command_timeout = time.time()
 
-        # elif top_gesture.category_name == "Pointing_Up":
-        #     print("Pointing Up️")
-        #     command_timeout = time.time()
+        elif top_gesture.category_name == "one_finger_up":
+            mouse.scroll(0, 1)
 
-        if top_gesture.category_name == "two_fingers_up":
-            print("Two fingers up")
-            command_timeout = time.time()
+        elif top_gesture.category_name == "two_fingers_up":
+            mouse.scroll(0, 1)
+            mouse.scroll(0, 1)
+            mouse.scroll(0, 1)
 
-        # elif top_gesture.category_name == "Thumb_Up":
-        #     print("Thumbs Up")
-        #     command_timeout = time.time()
-        #
-        # elif top_gesture.category_name == "Thumb_Down":
-        #     print("Thumbs Down")
-        #     command_timeout = time.time()
+        elif top_gesture.category_name == "one_finger_down":
+            mouse.scroll(0, -1)
 
-        # elif top_gesture.category_name == "ILoveYou":
-        #     # volume up all the way
-        #     # use spea
-        #     command_timeout = time.time()
-        #
-        # elif top_gesture.category_name == "None":
-        #     # This occurs when a hand is visible but the shape isn't recognized
-        #     pass
+        elif top_gesture.category_name == "two_fingers_down":
+            mouse.scroll(0, -1)
+            mouse.scroll(0, -1)
+            mouse.scroll(0, -1)
 
         analyze_timeout = time.time()
